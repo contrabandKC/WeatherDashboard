@@ -24,6 +24,7 @@ $(document).ready(function () {
                 card.append(cityEl)
                 $("#searched").prepend(card)
             }
+
             searched()
         }
     }
@@ -34,7 +35,6 @@ $(document).ready(function () {
 
     $('#search').click(function (event) {
 
-        var date
         event.preventDefault()
         event.stopPropagation()
         var city = $('#city').val().trim()
@@ -55,12 +55,15 @@ $(document).ready(function () {
             console.log(city)
             localStorage.setItem(city, city)
 
-            searched()
 
             $('#city').val("")
             $('#five').empty()
 
         }
+
+        $( ".searched" ).unbind();
+
+        searched()
 
     })
 
