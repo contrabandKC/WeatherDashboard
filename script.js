@@ -135,7 +135,7 @@ $(document).ready(function () {
 
             $("#five").prepend(header)
 
-
+                // Five day forecast
 
             $.each(response.list, function (i, day) {
 
@@ -146,7 +146,7 @@ $(document).ready(function () {
                 if (time == 15) {
                     var card = $("<div>").attr("class", "card text-white bg-primary m-2 shadow")
 
-                    var date = $("<div>").text(moment(day.dt_txt).format("ddd, hA")).attr("class", "card-header")
+                    var date = $("<div>").text(moment(day.dt_txt).format("ddd, Do")).attr("class", "card-header")
                     var body = $("<div>").attr("class", "card-body")
                     var img = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + day.weather[0].icon + "@2x.png")
                     // c.append(img)
