@@ -16,7 +16,7 @@ $(document).ready(function(){
                 var city = localStorage.getItem(index)
                 console.log(localStorage.key(i), localStorage.getItem(index), city)
                 var card = $("<div>").attr("class", "card")
-                var cityEl = $("<div>").text(city).attr("class", "card-body text-capitalize")
+                var cityEl = $("<div>").text(city).attr("class", "card-body text-capitalize searched")
                 card.append(cityEl)
                 $("#searched").prepend(card)      
             }
@@ -32,24 +32,33 @@ $(document).ready(function(){
         var date
         event.preventDefault()
         var city = $('#city').val().trim()
-        getWeather(city)
-        getForecast(city)  
-        console.log(city)
-        localStorage.setItem(city,city)
+
+        if(city){
 
         $('#dashBoard').empty()
         $('#foreCast').empty()
 
         if (city) {
             var card = $("<div>").attr("class", "card")
-            var cityEl = $("<div>").text(city).attr("class", "card-body text-capitalize")
+            var cityEl = $("<div>").text(city).attr("class", "card-body text-capitalize searched")
             card.append(cityEl)
             $("#searched").prepend(card)       
         }
-  
+        getWeather(city)
+        getForecast(city)  
+        console.log(city)
+        localStorage.setItem(city,city)
+
+        searched()
 
         $('#city').val("")
         $('#five').empty()
+
+        }
+
+
+  
+
 
 
     })
@@ -168,10 +177,35 @@ $(document).ready(function(){
             method: "GET"
           }).then(function(response){
             var uvI = response.current.uvi
+
+            // uvI = 11
+
+            var scale = ""
+            console.log( "class uvi", uvI)
+            
+         
+            if(1 <= uvI && uvI < 3){
+                scale = "bg-success"
+            }
+            else if(3 <= uvI && uvI < 6){
+                scale = "bg-warning"
+            }
+            else if (6 <= uvI && uvI < 8){
+                scale = "orange"
+            }
+            else if(8 <= uvI && uvI < 11){
+                scale = "bg-danger"; 
+            }
+            else{
+                scale = "violet"
+            }
+
+
+            
             console.log("UV ",response, uv)
             var uvIndex = $("<div>").attr("class", "mt-3 d-flex flex-row")
             var uv = $("<div>").text("UV index:  " ).attr("class", "")
-            var index = $("<div>").text("    "+uvI+" ").attr("class", "bg-danger text-white p-1 rounded")
+            var index = $("<div>").text("    "+uvI+" ").attr("class", "text-white p-1 ml-2 rounded " +scale )
             console.log(uv)
             uvIndex.append(uv, index)
             $("#dashBoard").children().append(uvIndex)
@@ -180,7 +214,24 @@ $(document).ready(function(){
           })
     }
 
+function searched(){
 
+    $(".searched").click(function(event){
+        console.log($(this).text())
+
+        var city = $(this).text()
+        getWeather(city)
+        getForecast(city)  
+        console.log(city)
+        $('#dashBoard').empty()
+        $('#foreCast').empty()
+        $('#city').val("")
+        $('#five').empty()
+    })
+
+}
+
+searched()
 
 
 })
